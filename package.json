@@ -1,0 +1,19 @@
+{
+  "name": "graphql-firestore",
+  "version": "0.1.0",
+  "description": "Graphql server on Firebase functions, using Firestore for database",
+  "main": "index.js",
+  "dependencies": {
+    "apollo-server": "^2.4.2",
+    "apollo-server-express": "^2.4.2",
+    "express": "^4.16.4",
+    "graphql": "^14.1.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "dev": "node graphql/server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Geoffrey HUG",
+  "license": "ISC"
+}
