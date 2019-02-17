@@ -23,7 +23,7 @@ const spawnServer = () => {
     }
   })
 
-  server.applyMiddleware({ app })
+  server.applyMiddleware({ app, path: "/" })
 
   return app
 }
