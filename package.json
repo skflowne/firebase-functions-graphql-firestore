@@ -6,12 +6,13 @@
   "dependencies": {
     "apollo-server": "^2.4.2",
     "apollo-server-express": "^2.4.2",
+    "body-parser": "^1.18.3",
     "express": "^4.16.4",
     "graphql": "^14.1.1"
   },
   "devDependencies": {},
   "scripts": {
-    "dev": "node graphql/server.js",
+    "dev": "node functions/graphql/localServer.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Geoffrey HUG",
