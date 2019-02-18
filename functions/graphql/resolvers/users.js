@@ -36,6 +36,26 @@ const userResolvers = {
   },
 
   Mutation: {
+
+    /* SIGN IN */
+    signIn: async (parent, args, { auth }) => {
+      const {
+        email,
+        password
+      } = args
+
+      try {
+        const signIn = await auth().signInWithEmailAndPassword(email, password)
+        const user = await signIn.user.getIdTokenResult(true)
+
+        return user
+      } catch (e) {
+        console.log('Sign in error', e)
+        throw e
+      }
+    },
+
+    /* SIGN UP */
     signUp: async (parent, args, { auth, admin }) => {
       const {
         email,
@@ -46,7 +66,7 @@ const userResolvers = {
 
       if(password === pwdConfirmation){
         try {
-          const userCreation = await auth.createUserWithEmailAndPassword(email, password)
+          const userCreation = await auth().createUserWithEmailAndPassword(email, password)
           const uid = userCreation.user.uid
 
           const token = await admin.auth().createCustomToken(uid)
@@ -54,11 +74,13 @@ const userResolvers = {
           return { token }
         } catch (e){
           console.log('Failed to sign up user', args, e)
-          throw new Error(e)
+          throw e
         }
 
       } else {
-        throw new Error("Password and confirmation don't match")
+        let error = new Error("Password and confirmation don't match")
+        error.code = "signup/pwd-confirmation"
+        throw error
       }
     }
   }

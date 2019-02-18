@@ -16,7 +16,7 @@ admin.initializeApp(adminConfig)
 firebase.initializeApp(config)
 
 const db = firebase.firestore()
-const auth = firebase.auth()
+const auth = firebase.auth
 
 module.exports = {
   auth,
