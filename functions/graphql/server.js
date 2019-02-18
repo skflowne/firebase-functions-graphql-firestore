@@ -2,7 +2,7 @@ const { ApolloServer, gql } = require('apollo-server-express')
 const express = require('express')
 const cors = require('cors')
 
-const db = require('../firebase')
+const { auth, db, admin } = require('../firebase')
 const schema = require('./schema')
 const resolvers = require('./resolvers')
 
@@ -19,7 +19,9 @@ const spawnServer = () => {
     introspection: true,
     playground: true,
     context: {
-      db
+      auth,
+      db,
+      admin
     }
   })
 
