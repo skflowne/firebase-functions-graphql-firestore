@@ -2,13 +2,15 @@ const { gql } = require('apollo-server-express')
 
 const userSchema = gql`
   extend type Query {
+    me: User,
     users: [User],
     user(uid: String!): User
   }
 
   extend type Mutation {
     signIn(email: String!, password: String!): Token!,
-    signUp(email: String!, password: String!, pwdConfirmation: String!, displayName: String ): Token!
+    signUp(email: String!, password: String!, pwdConfirmation: String!, displayName: String ): Token!,
+    setAdmin(userId: String!, isAdmin: Boolean!): Boolean
   }
 
   type User {

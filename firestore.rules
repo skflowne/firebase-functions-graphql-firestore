@@ -1,7 +1,24 @@
 service cloud.firestore {
+	function isAdmin(){
+  	return request.auth != null && request.auth.token.isAdmin == true
+  }
+
+  function isOwner(userId) {
+    return request.auth.uid == userId
+  }
+
   match /databases/{database}/documents {
-    match /{document=**} {
-      allow read, write;
+    match /permissions/{uid} {
+      allow read, write: if isAdmin()
+    }
+
+    match /userPrivate/{uid} {
+    	allow read, write: if isAdmin() || isUser(uid)
+    }
+
+    match /userPublic/{uid}{
+     allow read
+     allow write: if isOwner(uid)
     }
   }
 }
