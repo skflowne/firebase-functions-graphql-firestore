@@ -1,5 +1,18 @@
 const collectionNames = require('../../firebase/collectionNames')
 
+const userWriteDefaults = async (admin, uid, defaultUserClaims) => {
+  /* Write user permissions, only readable/writable by admin */
+  const writeUserPermissions = await admin.firestore().collection(collectionNames.userPermissions).doc(uid).set(defaultUserClaims)
+  /* Write some default public data for this user, ie: everyone can read */
+  const writeUserPublicData = await admin.firestore().collection(collectionNames.userPublicData).doc(uid).set({
+    uid: uid
+  })
+  /* Write some default private data for this user, ie: only admins and the user can read/write */
+  const writeUserPrivateData = await admin.firestore().collection(collectionNames.userPrivateData).doc(uid).set({
+    uid: uid
+  })
+}
+
 const userResolvers = {
   Query: {
 
@@ -43,7 +56,7 @@ const userResolvers = {
 
   Mutation: {
 
-    /* SIGN IN */
+    /* SIGN IN EMAIL/PASSWORD */
     signIn: async (parent, args, { db, auth, admin }) => {
       const {
         email,
@@ -68,6 +81,41 @@ const userResolvers = {
       }
     },
 
+    /* SIGN IN GOOGLE ACCOUNT */
+    googleSignIn: async (parent, args, { admin, auth, defaultUserClaims }) => {
+      const {
+        token
+      } = args
+
+      const credential = auth.GoogleAuthProvider.credential(token)
+      try {
+        const signIn = await auth().signInAndRetrieveDataWithCredential(credential)
+        const uid = signIn.user.uid
+
+        const userPermissionsRef = admin.firestore().collection(collectionNames.userPermissions).doc(uid)
+        let userPermissions = await userPermissionsRef.get()
+
+        console.log('user permissions before', userPermissions.data())
+
+        if(!userPermissions.exists){
+          const writeDefaults = await userWriteDefaults(admin, uid, defaultUserClaims)
+          userPermissions = await userPermissionsRef.get()
+          console.log('user permissions after', userPermissions.data())
+        }
+
+        const claims = userPermissions.data()
+        const token = await admin.auth().createCustomToken(uid, claims)
+
+        console.log('google sign in', uid, claims, token)
+
+        return { token }
+
+      } catch (e){
+        console.log('Google sign in failed', e)
+        throw e
+      }
+    },
+
     /* SIGN UP */
     signUp: async (parent, args, { db, auth, admin, defaultUserClaims }) => {
       const {
@@ -82,16 +130,7 @@ const userResolvers = {
           const userCreation = await auth().createUserWithEmailAndPassword(email, password)
           const uid = userCreation.user.uid
 
-          /* Write user permissions, only readable/writable by admin */
-          const writeUserPermissions = await admin.firestore().collection(collectionNames.userPermissions).doc(uid).set(defaultUserClaims)
-          /* Write some default public data for this user, ie: everyone can read */
-          const writeUserPublicData = await admin.firestore().collection(collectionNames.userPublicData).doc(uid).set({
-            uid: uid
-          })
-          /* Write some default private data for this user, ie: only admins and the user can read/write */
-          const writeUserPrivateData = await admin.firestore().collection(collectionNames.userPrivateData).doc(uid).set({
-            uid: uid
-          })
+          const writeDefaults = await userWriteDefaults(admin, uid, defaultUserClaims)
 
           const token = await admin.auth().createCustomToken(uid, defaultUserClaims)
           console.log('token', token)

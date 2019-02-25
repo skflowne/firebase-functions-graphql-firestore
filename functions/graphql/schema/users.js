@@ -9,6 +9,7 @@ const userSchema = gql`
 
   extend type Mutation {
     signIn(email: String!, password: String!): Token!,
+    googleSignIn(token: String!): Token!,
     signUp(email: String!, password: String!, pwdConfirmation: String!, displayName: String ): Token!,
     setAdmin(userId: String!, isAdmin: Boolean!): Boolean
   }
