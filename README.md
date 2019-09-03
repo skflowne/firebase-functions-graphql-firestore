@@ -1,6 +1,8 @@
 # firebase-functions-graphql-firestore
 This project aims to provide a boilerplate to host a GraphQL API on Firebase functions, using Firestore for the database
+
 You can clone it and go through the setup and configuration described below
+
 After following this process, you'll have a GraphQL API supporting :
 - Firebase email/password authentication (signUp, signIn)
 - Google account authentication (with token)
