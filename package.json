@@ -10,7 +10,9 @@
     "express": "^4.16.4",
     "graphql": "^14.1.1"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "dotenv": "^8.1.0"
+  },
   "scripts": {
     "dev": "node functions/graphql/localServer.js",
     "test": "echo \"Error: no test specified\" && exit 1"

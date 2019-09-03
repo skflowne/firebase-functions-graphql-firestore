@@ -1,21 +1,23 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
 
-    <meta name="google-signin-client_id" content="708597221065-1kannpqtrfp3hof4r856tekunpt2aruo.apps.googleusercontent.com">
+<head>
+    <meta charset="utf-8">
+    <meta name="google-signin-client_id" content="YOUR_GOOGLE_CLIENT_ID">
     <meta name="google-signin-cookiepolicy" content="single_host_origin">
     <meta name="google-signin-scope" content="profile email">
     <script src="https://apis.google.com/js/platform.js" async defer></script>
     <title>Google Auth Test</title>
-  </head>
-  <body>
+</head>
+
+<body>
     <div class="g-signin2" data-onsuccess="onSignIn"></div>
 
     <script type="text/javascript">
-      function onSignIn(result){
-        console.log('sign in', result)
-      }
+        function onSignIn(result) {
+            console.log('sign in', result)
+        }
     </script>
-  </body>
+</body>
+
 </html>

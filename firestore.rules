@@ -13,12 +13,12 @@ service cloud.firestore {
     }
 
     match /userPrivate/{uid} {
-    	allow read, write: if isAdmin() || isUser(uid)
+    	allow read, write: if isAdmin() || isOwner(uid)
     }
 
     match /userPublic/{uid}{
      allow read
-     allow write: if isOwner(uid)
+     allow write: if isOwner(uid) || isAdmin()
     }
   }
 }
