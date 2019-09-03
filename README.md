@@ -145,9 +145,19 @@ const yourResolvers = require('./yourResolvers')
 module.exports = [userResolvers, yourResolvers]
 ```
 
+# Default database rules
+Check `firestore.rules` to find out the default data structure used to provide an admin role
+
+These also provide a way to have public data (readable by everyone, writable only by user or admins) and private data (readable, writable only by user and admins)
+
+# CRUD Example
+You can check the `wishes.example.js` files in schema and resolvers for a basic CRUD example with Firestore.
+
+This data is private to users who create it.
 
 # Disclaimer
 This project is in its early stage and I might not have a lot of time to maintain it, so use at your own risks
+
 You're welcome to open an issue for suggestions or problems
 
 
