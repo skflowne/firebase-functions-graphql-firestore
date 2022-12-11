@@ -18,7 +18,7 @@
     "cors": "^2.8.5",
     "dot-env": "0.0.1",
     "dotenv": "^6.2.0",
-    "express": "^4.16.4",
+    "express": "^4.17.3",
     "firebase": "^5.8.3",
     "firebase-admin": "~7.0.0",
     "firebase-functions": "^2.2.0",
